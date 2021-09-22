@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Paciente;
+use App\Cargo;
 
-class PacienteController extends Controller
+class CargoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +14,10 @@ class PacienteController extends Controller
      */
     public function index()
     {
-        // obtendo os dados de todos os pacientes
-        $pacientes = Paciente::all();
-        // chamando a tela e enviando o objeto $pacientes
+        $cargos = Cargo::all();
+        // chamando a tela e enviando o objeto $cargos
         // como parâmetro
-        return view('pacientes.index', compact('pacientes'));
+        return view('cargos.index', compact('cargos'));
     }
 
     /**
@@ -28,8 +27,7 @@ class PacienteController extends Controller
      */
     public function create()
     {
-        // chamando a tela para o cadastro de pacientes
-        return view ('pacientes.create');
+        return view ('cargos.create');
     }
 
     /**
@@ -40,16 +38,15 @@ class PacienteController extends Controller
      */
     public function store(Request $request)
     {
-        // criando regras para validação
         $validateData = $request->validate([
-            'nome'      =>      'required|max:35',
-            'genero'    =>      'required|max:35'
+            'nome_cargo'      =>      'required|max:35',
+            'desc_cargo'    =>      'required|max:35'
         ]);
         // executando o método para a gravação do registro
-        $paciente = Paciente::create($validateData);
+        $cargo = Cargo::create($validateData);
         // redirecionando para a tela principal do módulo
-        // de pacientes
-        return redirect('/pacientes')->with('success','Dados adicionados com sucesso!');
+        // de cargos
+        return redirect('/cargos')->with('success','Dados adicionados com sucesso!');
     }
 
     /**
@@ -60,12 +57,10 @@ class PacienteController extends Controller
      */
     public function show($id)
     {
-        // criando um objeto para receber o resultado
-        // da busca de registro/objeto específico
-        $paciente = Paciente::findOrFail($id);
+        $cargo = Cargo::findOrFail($id);
         // retornando a tela de visualização com o
         // objeto recuperado
-        return view('pacientes.show',compact('paciente'));
+        return view('cargos.show',compact('cargo'));
     }
 
     /**
@@ -76,12 +71,10 @@ class PacienteController extends Controller
      */
     public function edit($id)
     {
-        // criando um objeto para receber o resultado
-        // da busca de registro/objeto específico
-        $paciente = Paciente::findOrFail($id);
+        $cargo = Cargo::findOrFail($id);
         // retornando a tela de edição com o
         // objeto recuperado
-        return view('pacientes.edit', compact('paciente'));
+        return view('cargos.edit', compact('cargo'));
     }
 
     /**
@@ -93,17 +86,15 @@ class PacienteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // criando um objeto para testar/aplicar 
-        // validações nos dados da requisição
         $validateData = $request->validate([
-            'nome'      =>      'required|max:35',
-            'genero'    =>      'required|max:35'
+            'nome_cargo'      =>      'required|max:35',
+            'desc_cargo'    =>      'required|max:35'
         ]);
         // criando um objeto para receber o resultado
         // da persistência (atualização) dos dados validados 
-        Paciente::whereId($id)->update($validateData);
+        Cargo::whereId($id)->update($validateData);
         // redirecionando para o diretório raiz (index)
-        return redirect('/pacientes')->with('success', 
+        return redirect('/cargos')->with('success', 
         'Dados atualizados com sucesso!');
     }
 
@@ -115,11 +106,11 @@ class PacienteController extends Controller
      */
     public function destroy($id)
     {
-   
-        $paciente = Paciente::findOrFail($id);
-     
-        $paciente->delete();
-        return redirect('/pacientes')->with('success', 
+        $cargo = Cargo::findOrFail($id);
+        // realizando a exclusão
+        $cargo->delete();
+        // redirecionando para o diretório raiz (index)
+        return redirect('/cargos')->with('success', 
         'Dados removidos com sucesso!');
     }
 }

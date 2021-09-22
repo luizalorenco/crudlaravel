@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Paciente;
+use App\Especialidade;
 
-class PacienteController extends Controller
+class EspecialidadeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +14,11 @@ class PacienteController extends Controller
      */
     public function index()
     {
-        // obtendo os dados de todos os pacientes
-        $pacientes = Paciente::all();
-        // chamando a tela e enviando o objeto $pacientes
+        // obtendo os dados de todos os especialidades
+        $especialidades = Especialidade::all();
+        // chamando a tela e enviando o objeto $especialidades
         // como parâmetro
-        return view('pacientes.index', compact('pacientes'));
+        return view('especialidades.index', compact('especialidades'));
     }
 
     /**
@@ -28,8 +28,8 @@ class PacienteController extends Controller
      */
     public function create()
     {
-        // chamando a tela para o cadastro de pacientes
-        return view ('pacientes.create');
+        //
+        return view ('especialidades.create');
     }
 
     /**
@@ -40,16 +40,17 @@ class PacienteController extends Controller
      */
     public function store(Request $request)
     {
-        // criando regras para validação
-        $validateData = $request->validate([
-            'nome'      =>      'required|max:35',
-            'genero'    =>      'required|max:35'
-        ]);
-        // executando o método para a gravação do registro
-        $paciente = Paciente::create($validateData);
-        // redirecionando para a tela principal do módulo
-        // de pacientes
-        return redirect('/pacientes')->with('success','Dados adicionados com sucesso!');
+             // criando regras para validação
+             $validateData = $request->validate([
+                'nome_esp'      =>      'required|max:35',
+                'sigla_esp'    =>      'required|max:35',
+                'obs_esp'    =>      'required|max:35'
+            ]);
+            // executando o método para a gravação do registro
+            $especialidade = Especialidade::create($validateData);
+            // redirecionando para a tela principal do módulo
+            // de especialidades
+            return redirect('/especialidades')->with('success','Dados adicionados com sucesso!');
     }
 
     /**
@@ -60,12 +61,10 @@ class PacienteController extends Controller
      */
     public function show($id)
     {
-        // criando um objeto para receber o resultado
-        // da busca de registro/objeto específico
-        $paciente = Paciente::findOrFail($id);
+        $especialidade = Especialidade::findOrFail($id);
         // retornando a tela de visualização com o
         // objeto recuperado
-        return view('pacientes.show',compact('paciente'));
+        return view('especialidades.show',compact('especialidade'));
     }
 
     /**
@@ -76,12 +75,10 @@ class PacienteController extends Controller
      */
     public function edit($id)
     {
-        // criando um objeto para receber o resultado
-        // da busca de registro/objeto específico
-        $paciente = Paciente::findOrFail($id);
+        $especialidade = Especialidade::findOrFail($id);
         // retornando a tela de edição com o
         // objeto recuperado
-        return view('pacientes.edit', compact('paciente'));
+        return view('especialidades.edit', compact('especialidade'));
     }
 
     /**
@@ -93,17 +90,16 @@ class PacienteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // criando um objeto para testar/aplicar 
-        // validações nos dados da requisição
         $validateData = $request->validate([
-            'nome'      =>      'required|max:35',
-            'genero'    =>      'required|max:35'
+            'nome_esp'      =>      'required|max:35',
+            'sigla_esp'    =>      'required|max:35',
+            'obs_esp'    =>      'required|max:35'
         ]);
         // criando um objeto para receber o resultado
         // da persistência (atualização) dos dados validados 
-        Paciente::whereId($id)->update($validateData);
+        Especialidade::whereId($id)->update($validateData);
         // redirecionando para o diretório raiz (index)
-        return redirect('/pacientes')->with('success', 
+        return redirect('/especialidades')->with('success', 
         'Dados atualizados com sucesso!');
     }
 
@@ -115,11 +111,11 @@ class PacienteController extends Controller
      */
     public function destroy($id)
     {
-   
-        $paciente = Paciente::findOrFail($id);
-     
-        $paciente->delete();
-        return redirect('/pacientes')->with('success', 
+        $especialidade = Especialidade::findOrFail($id);
+        // realizando a exclusão
+        $especialidade->delete();
+        // redirecionando para o diretório raiz (index)
+        return redirect('/especialidades')->with('success', 
         'Dados removidos com sucesso!');
     }
 }

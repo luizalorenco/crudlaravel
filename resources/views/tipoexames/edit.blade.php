@@ -1,4 +1,4 @@
-@extends('pacientes.layout')
+@extends('tipoexames.layout')
 
 @section('title',__('Editar (CRUD Laravel)'))
 
@@ -16,7 +16,7 @@
                 <div class="card-header">
                     <div class="d-flex justify-content-between w-100">
                         <span>@lang('Editar (CRUD Laravel)')</span>
-                        <a href="{{ url('pacientes') }}" class="btn-info btn-sm">
+                        <a href="{{ url('tipoexames') }}" class="btn-info btn-sm">
                             <i class="fa fa-arrow-left"></i> @lang('Voltar')
                         </a>
                     </div>
@@ -28,16 +28,21 @@
                     </div>
                     @endif
 
-                    {!! Form::open(['action' => ['PacienteController@update',$paciente->id], 'method' => 'PUT'])!!}
+                    {!! Form::open(['action' => ['TipoexameController@update',$tipoexame->id], 'method' => 'PUT'])!!}
 
                     <div class="form-group">
-                        {!! Form::label(__('Nome do Paciente:')) !!}
-                        {!! Form::text("nome", $paciente->nome ,["class"=>"form-control","required"=>"required"]) !!}
+                        {!! Form::label(__('Nome do Exame:')) !!}
+                        {!! Form::text("nome_tpex", $tipoexame->nome_tpex ,["class"=>"form-control","required"=>"required"]) !!}
                     </div>
 
                     <div class="form-group">
-                        {!! Form::label(__('Gênero:')) !!}
-                        {!! Form::text("genero", $paciente->genero ,["class"=>"form-control mmss","required"=>"required"]) !!}
+                         {!! Form::label(__('Sigla do Exame:')) !!}:')) !!}
+                        {!! Form::text("sigla_tpex", $tipoexame->sigla_tpex ,["class"=>"form-control mmss","required"=>"required"]) !!}
+                    </div>
+
+                    <div class="form-group">
+                        {!! Form::label(__('Descriçao:')) !!}
+                        {!! Form::text("desc_tpex", $tipoexame->desc_tpex ,["class"=>"form-control mmss","required"=>"required"]) !!}
                     </div>
 
                     <div class="well well-sm clearfix">

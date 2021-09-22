@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Paciente;
+use App\Medico;
 
-class PacienteController extends Controller
+class MedicoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +14,11 @@ class PacienteController extends Controller
      */
     public function index()
     {
-        // obtendo os dados de todos os pacientes
-        $pacientes = Paciente::all();
-        // chamando a tela e enviando o objeto $pacientes
+        // obtendo os dados de todos os Medicos
+        $medicos = Medico::all();
+        // chamando a tela e enviando o objeto $medicos
         // como parâmetro
-        return view('pacientes.index', compact('pacientes'));
+        return view('medicos.index', compact('medicos'));
     }
 
     /**
@@ -28,8 +28,8 @@ class PacienteController extends Controller
      */
     public function create()
     {
-        // chamando a tela para o cadastro de pacientes
-        return view ('pacientes.create');
+        // chamando a tela para o cadastro de Medicos
+        return view ('medicos.create');
     }
 
     /**
@@ -43,13 +43,13 @@ class PacienteController extends Controller
         // criando regras para validação
         $validateData = $request->validate([
             'nome'      =>      'required|max:35',
-            'genero'    =>      'required|max:35'
+            'crm'    =>      'required|max:35'
         ]);
         // executando o método para a gravação do registro
-        $paciente = Paciente::create($validateData);
+        $medico = Medico::create($validateData);
         // redirecionando para a tela principal do módulo
-        // de pacientes
-        return redirect('/pacientes')->with('success','Dados adicionados com sucesso!');
+        // de Medicos
+        return redirect('/medicos')->with('success','Dados adicionados com sucesso!');
     }
 
     /**
@@ -62,10 +62,10 @@ class PacienteController extends Controller
     {
         // criando um objeto para receber o resultado
         // da busca de registro/objeto específico
-        $paciente = Paciente::findOrFail($id);
+        $medico = Medico::findOrFail($id);
         // retornando a tela de visualização com o
         // objeto recuperado
-        return view('pacientes.show',compact('paciente'));
+        return view('medicos.show',compact('medico'));
     }
 
     /**
@@ -78,10 +78,10 @@ class PacienteController extends Controller
     {
         // criando um objeto para receber o resultado
         // da busca de registro/objeto específico
-        $paciente = Paciente::findOrFail($id);
+        $medico = Medico::findOrFail($id);
         // retornando a tela de edição com o
         // objeto recuperado
-        return view('pacientes.edit', compact('paciente'));
+        return view('medicos.edit', compact('medico'));
     }
 
     /**
@@ -97,13 +97,13 @@ class PacienteController extends Controller
         // validações nos dados da requisição
         $validateData = $request->validate([
             'nome'      =>      'required|max:35',
-            'genero'    =>      'required|max:35'
+            'crm'    =>      'required|max:35'
         ]);
         // criando um objeto para receber o resultado
         // da persistência (atualização) dos dados validados 
-        Paciente::whereId($id)->update($validateData);
+        Medico::whereId($id)->update($validateData);
         // redirecionando para o diretório raiz (index)
-        return redirect('/pacientes')->with('success', 
+        return redirect('/medicos')->with('success', 
         'Dados atualizados com sucesso!');
     }
 
@@ -115,11 +115,12 @@ class PacienteController extends Controller
      */
     public function destroy($id)
     {
-   
-        $paciente = Paciente::findOrFail($id);
-     
-        $paciente->delete();
-        return redirect('/pacientes')->with('success', 
+        // localizando o objeto que será excluído
+        $medico = Medico::findOrFail($id);
+        // realizando a exclusão
+        $medico->delete();
+        // redirecionando para o diretório raiz (index)
+        return redirect('/medicos')->with('success', 
         'Dados removidos com sucesso!');
     }
 }

@@ -1,14 +1,14 @@
-@extends('pacientes.layout')
+@extends('cargos.layout')
 
-@section('title',__($paciente->nome . ': CRUD Laravel'))
+@section('title',__($cargo->nome_cargo . ': CRUD Laravel'))
 
 @push('css')
 <style>
-table{
-font-family: Verdana,sans-serif;
-border: 1px solid #ccc;
-margin: 20px 0;
-}
+    table{
+        font-family: Verdana,sans-serif;
+        border: 1px solid #ccc;
+        margin: 20px 0;
+    }
 table th{
     padding:10px;
     font-weight: normal;
@@ -23,8 +23,8 @@ table th{
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between w-100">
-                        <span><span class="text-info">{{$paciente->nome}}</span>: (@lang('CRUD Laravel'))</span>
-                        <a href="{{ url('pacientes') }}" class="btn-info btn-sm">
+                        <span><span class="text-info">{{$cargo->nome_cargo}}</span>: (@lang('CRUD Laravel'))</span>
+                        <a href="{{ url('cargos') }}" class="btn-info btn-sm">
                             <i class="fa fa-arrow-left"></i> @lang('Voltar')
                         </a>
                     </div>
@@ -41,26 +41,25 @@ table th{
                         <tbody>
                         <tr>
                           <th align="left"><strong>ID:</strong></th>
-                          <th align="left">{{$paciente->id}}</th>
+                          <th align="left">{{$cargo->id}}</th>
                         </tr>
                         <tr>
-                            <th align="left"><strong>@lang('Nome do Paciente')</strong>:</th>
-                            <th align="left">{{$paciente->nome}}</th>
+                            <th align="left"><strong>@lang('Nome do Cargo')</strong>:</th>
+                            <th align="left">{{$cargo->nome_cargo}}</th>
                         </tr>
                         <tr>
-                            <th align="left"><strong>@lang('Gênero')</strong>:</th>
-                            <th align="left">{{$paciente->genero}}</th>
+                            <th align="left"><strong>@lang('Descriçao do Cargo')</strong>:</th>
+                            <th align="left">{{$cargo->desc_cargo}}</th>
                           </tr>
                           <tr>
                             <th align="left"><strong>@lang('Adicionado')</strong>:</th>
-                            <th align="left">{{$paciente->created_at}}</th>
+                            <th align="left">{{$cargo->created_at}}</th>
                           </tr>
                           <tr>
                               <th align="left"><strong>@lang('Atualizado')</strong>:</th>
-                              <th align="left">{{$paciente->updated_at}}</th>
+                              <th align="left">{{$cargo->updated_at}}</th>
                           </tr>
                         </table>
-
                 </div>
             </div>
         </div>

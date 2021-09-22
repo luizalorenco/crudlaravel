@@ -4,20 +4,20 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Paciente extends Model
+class Medico extends Model
 {
-    // Definindo os atributos iniciais
     protected $fillable = [
         'nome',
-        'genero'
+        'crm'
     ];
 
     /**
      * criar uma função para estabelecer a associação (relacionamento)
-     * entre a classe 'Paciente' e a classe 'Consulta'
+     * entre a classe 'Médico' e a classe 'Consulta'
      */
     public function consulta() {
         // especificar o tipo de associação
         return $this->hasMany(Consulta::class);
     }
+
 }

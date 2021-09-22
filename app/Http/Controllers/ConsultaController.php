@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Consulta;
 use App\Paciente;
+use App\Medico;
 
-class PacienteController extends Controller
+class ConsultaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +17,10 @@ class PacienteController extends Controller
     public function index()
     {
         // obtendo os dados de todos os pacientes
-        $pacientes = Paciente::all();
-        // chamando a tela e enviando o objeto $pacientes
+        $consultas = Consulta::all();
+        // chamando a tela e enviando o objeto $consultas
         // como parâmetro
-        return view('pacientes.index', compact('pacientes'));
+        return view('consultas.index', compact('consultas'));
     }
 
     /**
@@ -28,8 +30,12 @@ class PacienteController extends Controller
      */
     public function create()
     {
+        // obtendo todos os pacientes
+        $pacientes = Paciente::pluck('nome','id');
+        // obtendo todos os médicos
+        $medicos = Medico::pluck('nome','id');
         // chamando a tela para o cadastro de pacientes
-        return view ('pacientes.create');
+        return view ('consultas.create', compact('pacientes','medicos'));
     }
 
     /**
@@ -42,14 +48,16 @@ class PacienteController extends Controller
     {
         // criando regras para validação
         $validateData = $request->validate([
-            'nome'      =>      'required|max:35',
-            'genero'    =>      'required|max:35'
+            'paciente_id'      =>      'required|max:35',
+            'medico_id'      =>      'required|max:35',
+            'data'    =>      'required|max:35',
+            'hora'    =>      'required|max:35'
         ]);
         // executando o método para a gravação do registro
-        $paciente = Paciente::create($validateData);
+        $consulta = Consulta::create($validateData);
         // redirecionando para a tela principal do módulo
         // de pacientes
-        return redirect('/pacientes')->with('success','Dados adicionados com sucesso!');
+        return redirect('/consultas')->with('success','Dados adicionados com sucesso!');
     }
 
     /**
@@ -62,10 +70,10 @@ class PacienteController extends Controller
     {
         // criando um objeto para receber o resultado
         // da busca de registro/objeto específico
-        $paciente = Paciente::findOrFail($id);
+        $consulta = Consulta::findOrFail($id);
         // retornando a tela de visualização com o
         // objeto recuperado
-        return view('pacientes.show',compact('paciente'));
+        return view('consultas.show',compact('consulta'));
     }
 
     /**
@@ -76,12 +84,16 @@ class PacienteController extends Controller
      */
     public function edit($id)
     {
+        //obtendo os dados dos pacientes
+        $pacientes = Paciente::pluck('nome','id');
+        //obtendo os dados do medico
+        $medicos = Medico::pluck('nome','id');
         // criando um objeto para receber o resultado
         // da busca de registro/objeto específico
-        $paciente = Paciente::findOrFail($id);
+        $consulta = Consulta::findOrFail($id);
         // retornando a tela de edição com o
         // objeto recuperado
-        return view('pacientes.edit', compact('paciente'));
+        return view('consultas.edit', compact('consulta','pacientes','medicos'));
     }
 
     /**
@@ -96,14 +108,16 @@ class PacienteController extends Controller
         // criando um objeto para testar/aplicar 
         // validações nos dados da requisição
         $validateData = $request->validate([
-            'nome'      =>      'required|max:35',
-            'genero'    =>      'required|max:35'
+            'paciente_id'      =>      'required|max:35',
+            'medico_id'      =>      'required|max:35',
+            'data'    =>      'required|max:35',
+            'hora'    =>      'required|max:35'
         ]);
         // criando um objeto para receber o resultado
         // da persistência (atualização) dos dados validados 
-        Paciente::whereId($id)->update($validateData);
+        Consulta::whereId($id)->update($validateData);
         // redirecionando para o diretório raiz (index)
-        return redirect('/pacientes')->with('success', 
+        return redirect('/consultas')->with('success', 
         'Dados atualizados com sucesso!');
     }
 
@@ -115,11 +129,12 @@ class PacienteController extends Controller
      */
     public function destroy($id)
     {
-   
-        $paciente = Paciente::findOrFail($id);
-     
-        $paciente->delete();
-        return redirect('/pacientes')->with('success', 
+        // localizando o objeto que será excluído
+        $consulta = Consulta::findOrFail($id);
+        // realizando a exclusão
+        $consulta->delete();
+        // redirecionando para o diretório raiz (index)
+        return redirect('/consultas')->with('success', 
         'Dados removidos com sucesso!');
     }
 }

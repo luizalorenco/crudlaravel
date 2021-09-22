@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Paciente;
+use App\Convenio;
 
-class PacienteController extends Controller
+class ConvenioController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +14,10 @@ class PacienteController extends Controller
      */
     public function index()
     {
-        // obtendo os dados de todos os pacientes
-        $pacientes = Paciente::all();
-        // chamando a tela e enviando o objeto $pacientes
+        $convenios = Convenio::all();
+        // chamando a tela e enviando o objeto $convenios
         // como parâmetro
-        return view('pacientes.index', compact('pacientes'));
+        return view('convenios.index', compact('convenios'));
     }
 
     /**
@@ -28,8 +27,7 @@ class PacienteController extends Controller
      */
     public function create()
     {
-        // chamando a tela para o cadastro de pacientes
-        return view ('pacientes.create');
+        return view ('convenios.create');
     }
 
     /**
@@ -40,16 +38,20 @@ class PacienteController extends Controller
      */
     public function store(Request $request)
     {
-        // criando regras para validação
         $validateData = $request->validate([
-            'nome'      =>      'required|max:35',
-            'genero'    =>      'required|max:35'
+            'nome_conv'      =>      'required|max:35',
+            'fone_conv'    =>      'required|max:35',
+            'site_conv'    =>      'required|max:35',
+            'contato_conv'      =>      'required|max:35',
+            'perccons_conv'    =>      'required|max:35',
+            'percexame_conv'    =>      'required|max:35'
+            
         ]);
         // executando o método para a gravação do registro
-        $paciente = Paciente::create($validateData);
+        $convenio = Convenio::create($validateData);
         // redirecionando para a tela principal do módulo
-        // de pacientes
-        return redirect('/pacientes')->with('success','Dados adicionados com sucesso!');
+        // de convenios
+        return redirect('/convenios')->with('success','Dados adicionados com sucesso!');
     }
 
     /**
@@ -60,12 +62,10 @@ class PacienteController extends Controller
      */
     public function show($id)
     {
-        // criando um objeto para receber o resultado
-        // da busca de registro/objeto específico
-        $paciente = Paciente::findOrFail($id);
+        $convenio = Convenio::findOrFail($id);
         // retornando a tela de visualização com o
         // objeto recuperado
-        return view('pacientes.show',compact('paciente'));
+        return view('convenios.show',compact('convenio'));
     }
 
     /**
@@ -76,12 +76,10 @@ class PacienteController extends Controller
      */
     public function edit($id)
     {
-        // criando um objeto para receber o resultado
-        // da busca de registro/objeto específico
-        $paciente = Paciente::findOrFail($id);
+        $convenio = Convenio::findOrFail($id);
         // retornando a tela de edição com o
         // objeto recuperado
-        return view('pacientes.edit', compact('paciente'));
+        return view('convenios.edit', compact('convenio'));
     }
 
     /**
@@ -93,17 +91,19 @@ class PacienteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // criando um objeto para testar/aplicar 
-        // validações nos dados da requisição
         $validateData = $request->validate([
-            'nome'      =>      'required|max:35',
-            'genero'    =>      'required|max:35'
+            'nome_conv'      =>      'required|max:35',
+            'fone_conv'    =>      'required|max:35',
+            'site_conv'    =>      'required|max:35',
+            'contato_conv'      =>      'required|max:35',
+            'perccons_conv'    =>      'required|max:35',
+            'percexame_conv'    =>      'required|max:35'
         ]);
         // criando um objeto para receber o resultado
         // da persistência (atualização) dos dados validados 
-        Paciente::whereId($id)->update($validateData);
+        Convenio::whereId($id)->update($validateData);
         // redirecionando para o diretório raiz (index)
-        return redirect('/pacientes')->with('success', 
+        return redirect('/convenios')->with('success', 
         'Dados atualizados com sucesso!');
     }
 
@@ -115,11 +115,11 @@ class PacienteController extends Controller
      */
     public function destroy($id)
     {
-   
-        $paciente = Paciente::findOrFail($id);
-     
-        $paciente->delete();
-        return redirect('/pacientes')->with('success', 
+        $convenio = Convenio::findOrFail($id);
+        // realizando a exclusão
+        $convenio->delete();
+        // redirecionando para o diretório raiz (index)
+        return redirect('/convenios')->with('success', 
         'Dados removidos com sucesso!');
     }
 }

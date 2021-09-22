@@ -1,4 +1,4 @@
-@extends('pacientes.layout')
+@extends('tipoexames.layout')
 
 @section('title',__('(CRUD Laravel)'))
 
@@ -15,9 +15,9 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between w-100">
-                        <span>@lang('Listagem de Pacientes')</span>
-                        <a href="{{ url('pacientes/create') }}" class="btn-primary btn-sm">
-                            <i class="fa fa-plus"></i> @lang('Novo Paciente')
+                        <span>@lang('Listagem de Exames')</span>
+                        <a href="{{ url('tipoexames/create') }}" class="btn-primary btn-sm">
+                            <i class="fa fa-plus"></i> @lang('Novo Exame')
                         </a>
                     </div>
                 </div>
@@ -32,29 +32,31 @@
                         <thead>
                             <tr>
                                 <td>ID</td>
-                                <td>@lang('Nome do Paciente')</td>
-                                <td>@lang('Gênero')</td>
+                                <td>@lang('Nome do Exame')</td>
+                                <td>@lang('Sigla do Exame')</td>
+                                <td>@lang('Descriçao')</td>
                                 <td colspan="3" class="text-center">@lang('Ações')</td>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($pacientes as $paciente)
+                            @foreach($tipoexames as $tipoexame)
                             <tr>
-                                <td>{{$paciente->id}}</td>
-                                <td>{{$paciente->nome}}</td>
-                                <td>{{$paciente->genero}}</td>
+                                <td>{{$tipoexame->id}}</td>
+                                <td>{{$tipoexame->nome_tpex}}</td>
+                                <td>{{$tipoexame->sigla_tpex}}</td>
+                                <td>{{$tipoexame->desc_tpex}}</td>
                                 <td class="text-center p-0 align-middle" width="70">
-                                    <a href="{{ route('pacientes.show', $paciente->id)}}"
+                                    <a href="{{ route('tipoexames.show', $tipoexame->id)}}"
                                         class="btn btn-info btn-sm">@lang('Abrir')
                                     </a>
                                 </td>
                                 <td class="text-center p-0 align-middle" width="70">
-                                    <a href="{{ route('pacientes.edit', $paciente->id)}}"
+                                    <a href="{{ route('tipoexames.edit', $tipoexame->id)}}"
                                         class="btn btn-primary btn-sm">@lang('Editar')
                                     </a>
                                 </td>
                                 <td class="text-center p-0 align-middle" width="70">
-                                    <form action="{{ route('pacientes.destroy', $paciente->id)}}" method="post">
+                                    <form action="{{ route('tipoexames.destroy', $tipoexame->id)}}" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-danger btn-sm" type="submit">Excluir</button>
